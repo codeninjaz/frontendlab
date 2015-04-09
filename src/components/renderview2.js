@@ -1,53 +1,36 @@
 import React from 'react';
-import _  from 'lodash';
-import {ListGroupItem, ListGroup, Button} from 'react-bootstrap';
-import ListItem from './listitem';
 import Store from '../data/datastore1';
+import Chart from './chart';
 
 //This is a render-view only rendering allowed
 export default class RenderView1 extends React.Component {
     constructor(props) {
         super(props);
+        let sampleData = [
+          {id: '5fbmzmtc', x: 7, y: 41, z: 6},
+          {id: 's4f8phwm', x: 11, y: 45, z: 9},
+          {id: 's4f8phss', x: 10, y: 50, z: 14}
+        ];
         this.state={
-            listVisibility: 'none',
-            buttonText: 'Visa lista'
+            data: sampleData,
+            domain: {x: [0, 100], y: [0, 100]},
+            bgcolor: '#A4D1FF',
+            colors: ['#D5FFBB','#F5E25A','#FF33DB','#4477FD','#04ECFF','#C68C8C','#C49C00','#00FF00','#9994C5']
         }
     }
-    itemList(){
-        var listItems = [];
-        _.forEach(this.props.data, function(item){
-            listItems.push(
-                <ListGroupItem key={item.id}>
-                    <ListItem item={item} />
-                </ListGroupItem>
-                );
+    handleColorUpdate(color){
+        this.setState({
+            bgcolor: color
         });
-        return listItems;
-    }
-    handleButton(){
-        let items = Store.getItems()
-        if(this.state.listVisibility==='none'){
-            this.setState({
-                listVisibility:'block',
-                buttonText: 'Dölj lista'
-            })
-        }
-        else{
-            this.setState({
-                listVisibility:'none',
-                buttonText: 'Visa lista'
-            })
-        }
     }
     render(){
         return(
         <div>
-            <Button bsStyle='primary' bsSize='small' block onClick={this.handleButton.bind(this)}>{this.state.buttonText}</Button>
-            <div style={{display:this.state.listVisibility}}>
-                <ListGroup>
-                    {this.itemList()}
-                </ListGroup>
-            </div>
+            <Chart
+                data={this.state.data}
+                domain={this.state.domain}
+                bgcolor={this.state.bgcolor}
+            />
         </div>
         );
     }
