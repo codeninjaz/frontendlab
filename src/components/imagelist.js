@@ -22,7 +22,7 @@ export default class Menu extends React.Component{
 
     render(){
         return (
-        		<Carousel>
+        		<Carousel style={{width:'400px', padding:'0'}}>
        				{this.itemList()}
        			</Carousel>
         	);
